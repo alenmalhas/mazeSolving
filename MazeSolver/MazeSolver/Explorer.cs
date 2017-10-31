@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MazeSolver.MazeSolver;
+﻿using System.Collections.Generic;
 using static MazeSolver.Utils;
 
 namespace MazeSolver
@@ -17,15 +12,16 @@ namespace MazeSolver
     {
         public IMaze CurrentMaze { get; private set; }
         List<Location> LocationHistory = new List<Location>();
-        private CharLocationTag[][] MazeNavigator;
+        private IMazeSolver MazeSolver;
 
         #region public methods
 
-        public Explorer(IMaze m)
+        public Explorer(IMaze m, IMazeSolver mazeSolver)
         {
             CurrentMaze = m;
             CurrentLocation = CurrentMaze.QueryByCellType('S');
-            MazeNavigator = MazeSolverFactory.Create(m);
+            //mazeSolver = new MazeSolver(m);
+            MazeSolver = mazeSolver;
         }
 
         public bool Move(Movement direction)
@@ -49,7 +45,7 @@ namespace MazeSolver
                     break;
             }
 
-            var isNewLocMovable = Movable(newLoc);
+            var isNewLocMovable = MazeSolver.Movable(newLoc);
             if (isNewLocMovable)
                 CurrentLocation = newLoc;
 
@@ -71,28 +67,16 @@ namespace MazeSolver
             }
         }
 
-        bool Movable(Location loc)
-        {
-            if (MazeNavigator[loc.RowNo][loc.ColNo].tag != RouteTag.OBSTACLE
-                || MazeNavigator[loc.RowNo][loc.ColNo].tag != RouteTag.DEAD_END)
-                return true;
-
-            return false;
-        }
-
         public List<Location> ExploreMaze()
         {
             var startLocation = CurrentMaze.QueryByCellType('S');
-            var mazeSolver = new MazeSolver(CurrentMaze);
-            var solved = mazeSolver.RecursiveSolve(startLocation.RowNo, startLocation.ColNo);
+            //var mazeSolver = new MazeSolver(CurrentMaze);
+            var solved = MazeSolver.Solve(startLocation.RowNo, startLocation.ColNo, CurrentMaze);
 
 
-            return solved ? mazeSolver.correctPath : null;
+            return solved ? MazeSolver.CorrectPath : null;
         }
 
         #endregion
-
-
-
     }
 }

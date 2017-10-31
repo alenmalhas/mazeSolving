@@ -22,6 +22,7 @@ namespace MazeSolver
 
         char QueryByCoordinate(int rowNo, int colNo);
         Location QueryByCellType(char cellType);
+        void SetByCoordinate(int rowNo, int colNo, char charVal);
     }
 
     public class Maze : IMaze
@@ -29,7 +30,7 @@ namespace MazeSolver
         public string MovableCellTypes = "S F";
 
         public string MazeString { get; private set; }
-        private char[][] MazeJaggedArray { get; set; }
+        public char[][] MazeJaggedArray { get; set; }
 
         public int NumOfWalls
         {
@@ -89,4 +90,5 @@ namespace MazeSolver
         }
 
     }
+
 }
