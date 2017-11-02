@@ -45,7 +45,7 @@ namespace MazeSolver
                     break;
             }
 
-            var isNewLocMovable = MazeSolver.Movable(newLoc);
+            var isNewLocMovable = CurrentMaze.Movable(newLoc);
             if (isNewLocMovable)
                 CurrentLocation = newLoc;
 
@@ -71,9 +71,8 @@ namespace MazeSolver
         {
             var startLocation = CurrentMaze.QueryByCellType('S');
             //var mazeSolver = new MazeSolver(CurrentMaze);
-            var solved = MazeSolver.Solve(startLocation.RowNo, startLocation.ColNo, CurrentMaze);
-
-
+            var solved = MazeSolver.Solve(startLocation.RowNo, startLocation.ColNo);
+            
             return solved ? MazeSolver.CorrectPath : null;
         }
 

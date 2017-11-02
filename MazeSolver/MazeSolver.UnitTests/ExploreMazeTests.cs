@@ -36,8 +36,9 @@ namespace MazeSolver.UnitTests
         [Test]
         public void Explorer_Initial_Location_Should_Be_Start_Of_Maze()
         {
-            var sampleMaze = new Maze();
-            sampleMaze.ReadFile(Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt"));
+            var filePath = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt");
+            var sampleMaze = new Maze(filePath);
+            
             sut = new Explorer(sampleMaze, mockMazeSolver.Object);
 
             var loc = sut.CurrentLocation;
@@ -47,9 +48,10 @@ namespace MazeSolver.UnitTests
         [Test]
         public void Explorer_Moves_CurrentLocation_Changes()
         {
-            mockMazeSolver.Setup(a => a.Movable(It.IsAny<Location>())).Returns(true);
-            var sampleMaze = new Maze();
-            sampleMaze.ReadFile(Path.Combine(System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt"));
+            mockMaze.Setup(a => a.Movable(It.IsAny<Location>())).Returns(true);
+            var filePath = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt");
+            var sampleMaze = new Maze(filePath);
+            
             sut = new Explorer(sampleMaze, mockMazeSolver.Object);
 
             var curLoc = sut.CurrentLocation;

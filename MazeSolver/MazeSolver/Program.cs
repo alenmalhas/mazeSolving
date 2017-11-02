@@ -24,9 +24,9 @@ namespace MazeSolver
 
         static void Main(string[] args)
         {
-            //var sampleMaze = new Maze();
-            var sampleMaze = Container.Resolve<IMaze>();
-            sampleMaze.ReadFile(Path.Combine(System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt"));
+            var filePath = Path.Combine(System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt");
+            var sampleMaze = Container.Resolve<IMaze>(new { mazeFilePath = filePath });
+
             var mazeSolver = Container.Resolve<IMazeSolver>(new { maze = sampleMaze });
             var explorer = Container.Resolve<IExplorer>(new { m = sampleMaze, mazeSolver = mazeSolver });
             var correctPath = explorer.ExploreMaze();

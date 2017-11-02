@@ -13,9 +13,10 @@ namespace MazeSolver.UnitTests
         [SetUp]
         public void TestSetup()
         {
-            sut = new Maze();
-            sut.ReadFile(Path.Combine(System.IO.Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt"));
+            var filePath = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), @"TestSampleFiles\ExampleMaze.txt");
+            sut = new Maze(filePath);
         }
+            
 
         [Test]
         public void Maze_String_Should_Not_Be_Empty_String()
